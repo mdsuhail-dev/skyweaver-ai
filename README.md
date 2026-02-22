@@ -111,7 +111,7 @@ response = client.messages.create(
 )
 ```
 
-**Get Started:** https://featherless.ai
+**Get Started:** 
 
 ---
 

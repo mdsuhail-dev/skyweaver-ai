@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyWeaver.AI - Your Night Sky Interpreter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .stars {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 60px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.8s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+            background: linear-gradient(45deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1em;
+            resize: none;
+            transition: all 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(124, 58, 237, 0.5);
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.2);
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #00d4ff, #7c3aed);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.6);
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(124, 58, 237, 0.1);
+            border-left: 4px solid #7c3aed;
+            border-radius: 10px;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result-title {
+            font-size: 0.9em;
+            color: #00d4ff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .result-text {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.95);
+            font-style: italic;
+        }
+        
+        .demo-note {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 8px;
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Generate random stars
+        for(let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'stars';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            document.body.appendChild(star);
+        }
+    </script>
+
+    <div class="container">
+        <h1>✨ SkyWeaver.AI ✨</h1>
+        <p class="subtitle">Close your eyes. Look at the night sky. Tell us what you see.</p>
+        
+        <div class="input-group">
+            <label for="skyInput">What do you see in the night sky?</label>
+            <textarea id="skyInput" placeholder="e.g., A dragon made of stars chasing the moon..." rows="4"></textarea>
+        </div>
+        
+        <button onclick="interpretSky()">✨ Weave My Vision ✨</button>
+        
+        <div id="result" class="result">
+            <div class="result-title">🎭 SkyWeaver Says:</div>
+            <div class="result-text" id="resultText"></div>
+        </div>
+        
+        <div class="demo-note">
+            💡 Demo Mode - Connect to Featherless AI for real interpretations
+        </div>
+    </div>
+
+    <script>
+        const demoResponses = [
+            "✨ A dragon made of stars chasing the moon speaks of ancient cosmic battles and the eternal dance between light and darkness. Your imagination touches the profound.",
+            "🌙 The eye watching from darkness represents your inner consciousness observing the vastness. You are not lost—you are awake.",
+            "⭐ Your future written in constellations means your path is already written in the stars. Trust the pattern.",
+            "💫 The endless void you see is not emptiness—it's infinite possibility waiting for your next breath.",
+            "🔮 What you perceive in the night sky is a mirror reflecting your deepest wishes and fears. The cosmos knows you."
+        ];
+        
+        function interpretSky() {
+            const input = document.getElementById('skyInput').value.trim();
+            const resultDiv = document.getElementById('result');
+            const resultText = document.getElementById('resultText');
+            
+            if (!input) {
+                alert('Please describe what you see in the night sky! ✨');
+                return;
+            }
+            
+            // Simulate API call with demo response
+            const randomResponse = demoResponses[Math.floor(Math.random() * demoResponses.length)];
+            resultText.textContent = randomResponse;
+            resultDiv.classList.add('show');
+        }
+        
+        // Allow Enter key to submit
+        document.getElementById('skyInput').addEventListener('keypress', function(e) {
+            if(e.key === 'Enter' && e.ctrlKey) interpretSky();
+        });
+    </script>
+</body>
+</html>

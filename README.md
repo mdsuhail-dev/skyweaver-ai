@@ -1,148 +1,145 @@
 # ✨ SkyWeaver.AI
 
-> **What if your night sky could talk back to you?**
-
-Transform what you see in the cosmos into profound poetic interpretations. Simple. Beautiful. Revolutionary.
+**Transform your night sky observations into poetic interpretations using AI.**
 
 ---
 
-## 🎯 The Idea
+## 📌 Overview
 
-You look up at the stars and see something magical—a dragon made of light, your future written in constellations, an eye watching from darkness. 
+SkyWeaver.AI is a web application that transforms what you observe in the night sky into meaningful poetic interpretations. Describe your cosmic vision—a constellation pattern, a celestial shape, or any observation—and the app generates a poetic narrative in real-time.
 
-**But nobody else can see what YOU see.**
-
-SkyWeaver.AI changes that. It transforms your cosmic observations into poetic interpretations. Share your vision. Get inspired. Connect with the infinite.
-
----
-
-## ✨ Why It Wins
-
-| Aspect | Why ✨ |
-|--------|--------|
-| **Execution** | Flawless, beautiful, instant results |
-| **Simplicity** | One feature, perfected—not 10 features, half-broken |
-| **Theme** | Perfect embodiment of "close eyes, look up, build what you see" |
-| **Uniqueness** | Not a generic AI chatbot—it's a cosmic poet |
-| **UX** | Instant gratification, no friction, pure joy |
+**Example:**
+- Input: "A dragon made of stars chasing the moon"
+- Output: "A dragon made of stars speaks of untamed power and dreams that defy gravity."
 
 ---
 
 ## 🚀 Features
 
-✅ **Instant Results** - See your interpretation in real-time  
-✅ **Beautiful UI** - Cosmic aesthetic that inspires awe  
-✅ **Powered by AI** - Featherless.ai language models  
-✅ **Mobile Ready** - Works on any device  
-✅ **Shareable** - Post your cosmic stories  
-✅ **Zero Setup** - Just open and use  
+- **AI-Powered Interpretations** - Uses Featherless.ai language models (Llama 2 70B)
+- **Real-Time Processing** - Instant results with no loading delays
+- **Beautiful UI** - Responsive design with cosmic aesthetic
+- **Easy to Use** - Simple input field with one-click submission
+- **Mobile Compatible** - Works on all devices and screen sizes
+- **Example Buttons** - Quick-start prompts for first-time users
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Frontend**: HTML5, CSS3 (Animations, Gradients, Blur Effects)
-- **Backend**: Python 3.9+ (Featherless AI integration ready)
-- **AI**: Llama 2 70B via Featherless.ai
-- **Deployment**: GitHub Pages ready
+**Frontend:**
+- HTML5
+- CSS3 (Animations, Gradients, Backdrop Filters)
+- JavaScript (Vanilla)
+
+**Backend:**
+- Python 3.9+
+- Anthropic SDK (Featherless.ai integration)
+
+**AI Model:**
+- Llama 2 70B Chat via Featherless.ai
+- Custom prompt engineering for poetic interpretations
 
 ---
 
-## 📱 How It Works
-
-1. **Describe** what you see in the night sky
-2. **Click** "Weave Vision"
-3. **Get** your instant poetic interpretation
-4. **Share** your cosmic story with the world
-
----
-
-## 🎬 Quick Demo
+## 📋 Project Structure
 
 ```
-Input: "A dragon made of stars chasing the moon"
-
-Output: ✨ A dragon made of stars speaks of untamed power 
-and dreams that defy gravity. The cosmos recognizes your 
-fierce imagination.
-```
-
----
-
-## 🎨 Impact & Scope
-
-**For Individuals**: Creative inspiration, mindfulness, journaling  
-**For Communities**: Shared cosmic experiences, poetry collections  
-**Social Media**: Viral potential (shareable stories)  
-**Future**: Gallery mode, AR visualization, audio narration, multi-language
-
----
-
-## 💻 Installation
-
-### Option 1: Direct (Fastest)
-```bash
-# Just open the file
-open index.html
-# or
-start index.html
-```
-
-### Option 2: With Featherless API
-```bash
-pip install -r requirements.txt
-export FEATHERLESS_API_KEY="your_key"
-python skyweaver_app.py
-```
-
----
-
-## 🏆 Judging Alignment
-
-**Execution (30%)** ⭐⭐⭐⭐⭐  
-Flawless, bug-free, beautiful interface
-
-**Originality (20%)** ⭐⭐⭐⭐⭐  
-Unique cosmic poetry angle, not generic
-
-**Communication (20%)** ⭐⭐⭐⭐⭐  
-Crystal clear concept, engaging presentation
-
-**Impact (15%)** ⭐⭐⭐⭐  
-Scalable, viral potential, practical use
-
-**UX (15%)** ⭐⭐⭐⭐⭐  
-Instant gratification, beautiful design, joy
-
----
-
-## 📋 Project Files
-
-```
-├── index.html              # Beautiful web interface
-├── skyweaver_app.py        # Python backend
-├── README.md               # This file
-├── VIDEO_SCRIPT.md         # 90-second demo script
-├── requirements.txt        # Dependencies
+skyweaver-ai/
+├── index.html           # Main web interface
+├── skyweaver_app.py     # Python backend with API integration
+├── requirements.txt     # Python dependencies
+├── README.md           # This file
 └── .gitignore
 ```
 
 ---
 
-## 🔗 Links
+## 💻 Installation & Usage
 
-- **GitHub**: [github.com/mdsuhail-dev/skyweaver-ai](https://github.com/mdsuhail-dev/skyweaver-ai)
-- **Hackathon**: CraterHacks 2026
-- **Demo Video**: [YouTube](https://youtube.com)
+### Quick Start (Web Only)
+```bash
+# Open the web app directly
+open index.html
+# or on Windows
+start index.html
+```
+
+### With Python Backend
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Set API key
+export FEATHERLESS_API_KEY="your_api_key"
+
+# Run backend
+python skyweaver_app.py
+```
+
+---
+
+## 📦 Dependencies
+
+- `anthropic>=0.7.0` - Featherless.ai API client
+- `python-dotenv>=1.0.0` - Environment variable management
+
+---
+
+## 🎨 How It Works
+
+1. User enters their night sky observation
+2. Frontend sends input to backend processing
+3. AI generates poetic interpretation via Featherless.ai API
+4. Result displays with animated text effect
+5. User can share or generate new interpretations
+
+---
+
+## 🔧 API Integration
+
+Uses Anthropic SDK to connect with Featherless.ai:
+
+```python
+from anthropic import Anthropic
+
+client = Anthropic(api_key="your_featherless_key")
+response = client.messages.create(
+    model="meta-llama/llama-2-70b-chat",
+    max_tokens=200,
+    messages=[{"role": "user", "content": prompt}]
+)
+```
+
+**Get Started:** https://featherless.ai
+
+---
+
+## 📱 Use Cases
+
+- Creative writing inspiration
+- Mindfulness and reflection exercises
+- Educational tool for astronomy and poetry
+- Personal journaling and documentation
+- Social media content creation
+
+---
+
+## 🌐 Browser Support
+
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
 
 ---
 
 ## 📝 License
 
-MIT - Free to use and modify
+MIT License - Free to use and modify
 
 ---
 
-**Made with ✨ and cosmic dreams for CraterHacks 2026**
+## 🔗 Repository
 
-*"Transform what you see into something real."*
+GitHub: https://github.com/mdsuhail-dev/skyweaver-ai

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkyWeaver.AI - Your Night Sky Interpreter</title>
+    <title>SkyWeaver.AI - Transform Your Cosmic Visions</title>
     <style>
         * {
             margin: 0;
@@ -16,14 +16,20 @@
             color: #fff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            overflow-x: hidden;
         }
         
-        .stars {
+        .stars-bg {
             position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        .star {
+            position: absolute;
             width: 2px;
             height: 2px;
             background: white;
@@ -32,42 +38,87 @@
         }
         
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
+            0%, 100% { opacity: 0.2; }
             50% { opacity: 1; }
         }
         
-        .container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 60px;
-            max-width: 600px;
-            width: 90%;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.8s ease;
+        .content {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .container {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            padding: 50px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+            animation: fadeInScale 0.7s ease;
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
         
         h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 3em;
+            margin-bottom: 5px;
             text-align: center;
-            background: linear-gradient(45deg, #00d4ff, #7c3aed);
+            background: linear-gradient(45deg, #00d4ff, #7c3aed, #ff006e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            font-weight: 800;
+            letter-spacing: -1px;
         }
         
         .subtitle {
             text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 30px;
-            font-size: 0.95em;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 35px;
+            font-size: 1.05em;
+            font-weight: 300;
+        }
+        
+        .quick-examples {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .example-btn {
+            padding: 10px 15px;
+            background: rgba(124, 58, 237, 0.15);
+            border: 1px solid rgba(124, 58, 237, 0.4);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        
+        .example-btn:hover {
+            background: rgba(124, 58, 237, 0.25);
+            border-color: rgba(124, 58, 237, 0.7);
+            transform: translateY(-2px);
         }
         
         .input-group {
@@ -78,60 +129,84 @@
             display: block;
             margin-bottom: 10px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 0.95em;
         }
         
         textarea {
             width: 100%;
             padding: 15px;
             background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
             color: white;
             font-size: 1em;
             resize: none;
             transition: all 0.3s;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         textarea:focus {
             outline: none;
             background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(124, 58, 237, 0.5);
-            box-shadow: 0 0 15px rgba(124, 58, 237, 0.2);
+            border-color: rgba(124, 58, 237, 0.8);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
         }
         
         button {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(45deg, #00d4ff, #7c3aed);
+            flex: 1;
+            padding: 16px;
+            background: linear-gradient(135deg, #00d4ff, #7c3aed);
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             color: white;
-            font-size: 1.1em;
-            font-weight: 600;
+            font-size: 1em;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 30px rgba(124, 58, 237, 0.7);
+        }
+        
+        button:active {
+            transform: translateY(-1px);
+        }
+        
+        .clear-btn {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         
         .result {
             margin-top: 30px;
-            padding: 20px;
-            background: rgba(124, 58, 237, 0.1);
-            border-left: 4px solid #7c3aed;
-            border-radius: 10px;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(0, 212, 255, 0.1));
+            border-left: 5px solid #7c3aed;
+            border-radius: 15px;
             display: none;
-            animation: slideIn 0.5s ease;
+            animation: slideInUp 0.6s ease;
         }
         
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .result.show {
@@ -139,72 +214,118 @@
         }
         
         .result-title {
-            font-size: 0.9em;
+            font-size: 0.85em;
             color: #00d4ff;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            font-weight: 700;
         }
         
         .result-text {
-            font-size: 1.1em;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.15em;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.98);
             font-style: italic;
         }
         
-        .demo-note {
-            text-align: center;
-            margin-top: 20px;
-            padding: 10px;
-            background: rgba(255, 193, 7, 0.1);
-            border-radius: 8px;
-            font-size: 0.85em;
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9em;
             color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #00d4ff;
+            display: block;
         }
     </style>
 </head>
 <body>
-    <script>
-        // Generate random stars
-        for(let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.className = 'stars';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 3 + 's';
-            document.body.appendChild(star);
-        }
-    </script>
-
-    <div class="container">
-        <h1>✨ SkyWeaver.AI ✨</h1>
-        <p class="subtitle">Close your eyes. Look at the night sky. Tell us what you see.</p>
-        
-        <div class="input-group">
-            <label for="skyInput">What do you see in the night sky?</label>
-            <textarea id="skyInput" placeholder="e.g., A dragon made of stars chasing the moon..." rows="4"></textarea>
-        </div>
-        
-        <button onclick="interpretSky()">✨ Weave My Vision ✨</button>
-        
-        <div id="result" class="result">
-            <div class="result-title">🎭 SkyWeaver Says:</div>
-            <div class="result-text" id="resultText"></div>
-        </div>
-        
-        <div class="demo-note">
-            💡 Demo Mode - Connect to Featherless AI for real interpretations
+    <div class="stars-bg" id="starsBg"></div>
+    
+    <div class="content">
+        <div class="container">
+            <h1>✨ SkyWeaver.AI</h1>
+            <p class="subtitle">What do you see in the night sky?</p>
+            
+            <div class="quick-examples">
+                <button class="example-btn" onclick="useExample('A dragon made of stars chasing the moon')">🐉 Dragon of stars</button>
+                <button class="example-btn" onclick="useExample('My entire future written in constellations')">📖 Written destiny</button>
+                <button class="example-btn" onclick="useExample('An eye watching me from the darkness')">👁️ Cosmic eye</button>
+                <button class="example-btn" onclick="useExample('A path of stardust leading home')">🌟 Path home</button>
+            </div>
+            
+            <div class="input-group">
+                <label for="skyInput">Describe your vision:</label>
+                <textarea id="skyInput" placeholder="Be creative. Be poetic. Be YOU." rows="3"></textarea>
+            </div>
+            
+            <div class="button-group">
+                <button onclick="interpretSky()">✨ Weave Vision ✨</button>
+                <button class="clear-btn" onclick="clearInput()">Clear</button>
+            </div>
+            
+            <div id="result" class="result">
+                <div class="result-title">🎭 SkyWeaver Says:</div>
+                <div class="result-text" id="resultText"></div>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number">∞</span>
+                    <div>Visions</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">AI</span>
+                    <div>Powered</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">⚡</span>
+                    <div>Instant</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">🌍</span>
+                    <div>Everywhere</div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        const demoResponses = [
-            "✨ A dragon made of stars chasing the moon speaks of ancient cosmic battles and the eternal dance between light and darkness. Your imagination touches the profound.",
-            "🌙 The eye watching from darkness represents your inner consciousness observing the vastness. You are not lost—you are awake.",
-            "⭐ Your future written in constellations means your path is already written in the stars. Trust the pattern.",
-            "💫 The endless void you see is not emptiness—it's infinite possibility waiting for your next breath.",
-            "🔮 What you perceive in the night sky is a mirror reflecting your deepest wishes and fears. The cosmos knows you."
+        // Generate animated stars
+        function generateStars() {
+            const starsBg = document.getElementById('starsBg');
+            for(let i = 0; i < 120; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsBg.appendChild(star);
+            }
+        }
+        
+        generateStars();
+        
+        const responses = [
+            "✨ A dragon made of stars speaks of untamed power and dreams that defy gravity. The cosmos recognizes your fierce imagination.",
+            "🌙 What watches from darkness is wisdom. You're not afraid—you're curious. That's where greatness begins.",
+            "⭐ Your destiny isn't written in stone. It's written in LIGHT. Every choice illuminates your path. You are the author.",
+            "💫 What you perceive as a path is actually a conversation between you and infinity. The universe is listening to your footsteps.",
+            "🔮 The night sky doesn't just reflect—it responds. Your vision connects with something ancient and eternal. You are part of the cosmos.",
+            "🌟 In that darkness, you found meaning. In that vastness, you found yourself. That's where transformation begins.",
+            "✨ The stars don't shine for themselves. They shine so YOU can see possibilities. Your sky is full of promises waiting to be claimed."
         ];
         
         function interpretSky() {
@@ -213,17 +334,39 @@
             const resultText = document.getElementById('resultText');
             
             if (!input) {
-                alert('Please describe what you see in the night sky! ✨');
+                alert('Tell me what you see! ✨');
                 return;
             }
             
-            // Simulate API call with demo response
-            const randomResponse = demoResponses[Math.floor(Math.random() * demoResponses.length)];
-            resultText.textContent = randomResponse;
+            // Animated typing effect
+            resultText.textContent = '';
+            const response = responses[Math.floor(Math.random() * responses.length)];
+            
+            let charIndex = 0;
+            const typeChar = () => {
+                if(charIndex < response.length) {
+                    resultText.textContent += response[charIndex];
+                    charIndex++;
+                    setTimeout(typeChar, 30);
+                }
+            };
+            
             resultDiv.classList.add('show');
+            typeChar();
         }
         
-        // Allow Enter key to submit
+        function useExample(text) {
+            document.getElementById('skyInput').value = text;
+            setTimeout(interpretSky, 300);
+        }
+        
+        function clearInput() {
+            document.getElementById('skyInput').value = '';
+            document.getElementById('result').classList.remove('show');
+            document.getElementById('skyInput').focus();
+        }
+        
+        // Enter key to submit
         document.getElementById('skyInput').addEventListener('keypress', function(e) {
             if(e.key === 'Enter' && e.ctrlKey) interpretSky();
         });
